@@ -21,7 +21,7 @@ public class CosineTheoremСontroller {
     // 2. статус сервера
     @GetMapping("/status")
     public @ResponseBody Messages status() {
-        return new Messages("Состояние сервера на порту 8080: OK ");
+        return new Messages("Server status on port 8080: OK ");
     }
 
     // 3. решение
@@ -30,7 +30,7 @@ public class CosineTheoremСontroller {
         System.out.println("Полученные данные: " + input);
         OutputMessage out = solution.findingTheThirdLine(input);
         if (out == null) {
-            return new ErrorMessage("Число не может быть отрицательным или равняться нулю");
+            return new ErrorMessage("The number cannot be negative or equal to zero");
         }
         return out;
     }
