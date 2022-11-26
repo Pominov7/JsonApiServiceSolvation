@@ -15,6 +15,8 @@ import java.io.IOException;
 @Order(1)
 public class SecurityFilter extends HttpFilter {
 
+    private final static Logger LOG = LoggerFactory.getLogger(LoggingFilter.class);
+
     @Override
     public void doFilter(HttpServletRequest servletRequest, HttpServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         String token = servletRequest.getHeader("key");
@@ -23,6 +25,9 @@ public class SecurityFilter extends HttpFilter {
             filterChain.doFilter(servletRequest, servletResponse);
         } else {
             servletResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            LOG.error(servletRequest.getRemoteHost() + servletRequest.getRequestURI() +
+                    " Status: Unauthorized " + servletResponse.getStatus());
         }
     }
 }
+

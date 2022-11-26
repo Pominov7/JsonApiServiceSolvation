@@ -22,15 +22,24 @@ public class LoggingFilter extends HttpFilter {
         LOG.info("Initializing filter :{}", this);
     }
 
-
     @Override
     protected void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws IOException, ServletException {
         filterChain.doFilter(request, response);
-        if (response.getStatus() == 200) {
-            LOG.info(request.getRemoteHost() +
-                    request.getRequestURI() + " Status: OK");
-        } else {
-            LOG.error(request.getRemoteHost() + request.getRequestURI() + " Error: " + response.getStatus());
+        if (response.getStatus() >= 200 & response.getStatus() < 300) {
+            LOG.info(request.getRemoteHost() + request.getRequestURI() +
+                    " Status: OK " + response.getStatus());
+
+        } else if (response.getStatus() >= 300 & response.getStatus() < 400) {
+            LOG.error(request.getRemoteHost() + request.getRequestURI() +
+                    " Status: Redirect " + response.getStatus());
+
+        } else if (response.getStatus() >= 400 & response.getStatus() < 500) {
+            LOG.error(request.getRemoteHost() + request.getRequestURI() +
+                    " Status: Client-side error " + response.getStatus());
+
+        } else if (response.getStatus() >= 500 & response.getStatus() < 600) {
+            LOG.error(request.getRemoteHost() + request.getRequestURI() +
+                    " Status: Server-side error " + response.getStatus());
         }
     }
 
